@@ -33,10 +33,10 @@ class StoredProcedure:
 
 
 class MsSqlHandler:
-    def __init__(self):
-        self.conn = pymssql.connect(server='betaruby.woowahan.com',
-                                    user='kimjunyoung',
-                                    password='eoqkrskfk1!',
+    def __init__(self, argv):
+        self.conn = pymssql.connect(server='ruby5.woowahan.com',
+                                    user=argv[0],
+                                    password=argv[1],
                                     port=6436)
 
         self.graph = StoredProcedure()
@@ -63,18 +63,15 @@ class MsSqlHandler:
             except:
                 hashes[sym_name] = sym_name
 
-            print "procedure '%s' is using a table '%s'" % (sp_name, sym_name)
+            print "'%s' is using '%s' %s" % (sp_name, sym_name, self.total_nums)
             self.graph.usetable_rel(sp_name, sym_name)
             self.total_nums += 1
 
 
 if __name__ == '__main__':
 
-    db = MsSqlHandler()
-
     import sys
-    if len(sys.argv) > 1:
-        db.store_deps(sys.argv[1])
-    else:
-        for sp in db.get_sp_list():
-            db.store_deps(sp[0])
+    db = MsSqlHandler(sys.argv[1:])
+
+    for sp in db.get_sp_list():
+        db.store_deps(sp[0])
