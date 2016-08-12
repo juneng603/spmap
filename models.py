@@ -34,7 +34,7 @@ class StoredProcedure:
 
 class MsSqlHandler:
     def __init__(self, argv):
-        self.conn = pymssql.connect(server='ruby5.woowahan.com',
+        self.conn = pymssql.connect(server='betaruby.woowahan.com',
                                     user=argv[0],
                                     password=argv[1],
                                     port=6436)
